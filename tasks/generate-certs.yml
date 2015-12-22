@@ -1,0 +1,44 @@
+---
+- name: Create root dirs.
+  sudo: yes
+  file:
+    state="directory"
+    path="{{item.root}}"
+    owner="{{ansible_user_id}}"
+    group="www-data"
+    mode=0750
+  with_items: "{{simp_le_vhosts}}"
+- name: Create output dirs.
+  sudo: yes
+  file:
+    state="directory"
+    path="{{item.output}}"
+    owner="{{ansible_user_id}}"
+    group="www-data"
+    mode=0750
+  with_items: "{{simp_le_vhosts}}"
+
+- name: Create certificates.
+  command: "chdir={{item.output}} {{simp_le_dest}}/venv/bin/simp_le --vhost {{item.vhost}}:{{item.root}} --email {{simp_le_email}} -f account_key.json -f fullchain.pem -f key.pem"
+  with_items: "{{simp_le_vhosts}}"
+  register: simp_le_output
+  failed_when: "simp_le_output.rc == 2"
+  changed_when: "simp_le_output.rc == 0"
+
+- name: Add certificate renewal cron.
+  cron:
+    name="renew certificates for {{item.vhost}}"
+    job="cd {{item.output}} && {{simp_le_dest}}/venv/bin/simp_le --vhost {{item.vhost}}:{{item.root}} --email {{simp_le_email}} -f account_key.json -f fullchain.pem -f key.pem"
+    month="*/1"
+  with_items: "{{simp_le_vhosts}}"
+
+- name: Fix ownerships.
+  sudo: yes
+  file:
+    path="{{item.output}}"
+    state="directory"
+    owner="{{ansible_user_id}}"
+    group="www-data"
+    mode="u+rwX,g+rX,o="
+    recurse=yes
+  with_items: "{{simp_le_vhosts}}"

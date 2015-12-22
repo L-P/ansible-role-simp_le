@@ -1,0 +1,29 @@
+---
+- name: Clone simp_le
+  git:
+    repo="{{simp_le_repo}}"
+    version="{{simp_le_version}}"
+    dest="{{simp_le_dest}}"
+
+# Duplicate bootstrap.sh behavior.
+- name: Install dependencies.
+  sudo: yes
+  apt:
+    name="{{item}}"
+    cache_valid_time="86400"
+    update_cache=yes
+  with_items: "{{simp_le_dependencies}}"
+
+# Duplicate venv.sh behavior.
+- name: Setup venv.
+  pip:
+    virtualenv="{{simp_le_dest}}/venv"
+    name="{{item}}"
+    chdir="{{simp_le_dest}}"
+  with_items: "{{simp_le_python_dependencies}}"
+
+- name: Setup simp_le.
+  pip:
+    virtualenv="{{simp_le_dest}}/venv"
+    name="{{simp_le_dest}}"
+    chdir="{{simp_le_dest}}"

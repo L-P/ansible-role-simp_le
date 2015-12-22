@@ -1,0 +1,23 @@
+---
+simp_le_repo: "https://github.com/kuba/simp_le.git"
+simp_le_version: "5211a83fc60e1bf4e09f0e7a443f3bf8b39a0405"
+simp_le_dest: "/home/{{ansible_user_id}}/.cache/simp_le"
+simp_le_dependencies:
+  - "ca-certificates"
+  - "build-essential"
+  - "libssl-dev"
+  - "libffi-dev"
+  - "python"
+  - "python-dev"
+  - "python-virtualenv"
+simp_le_python_dependencies:
+  - "setuptools"
+  - "pip"
+  - "wheel"
+
+# Mandatory
+# simp_le_vhosts:
+#   - vhost: "example.com"
+#     root: "/path/to/challenges"
+#     output: "/path/to/output/dir"
+# simp_le_email:

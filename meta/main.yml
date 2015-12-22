@@ -1,0 +1,19 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: boaterfly
+  description: simp_le installation and certificate generation for Ubuntu/Debian.
+  company: "Boaterfly"
+  license: "license (BSD, MIT)"
+  min_ansible_version: 1.9
+  platforms:
+  - name: Debian
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - all
+  categories:
+    - development
+    - web
