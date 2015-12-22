@@ -2,7 +2,7 @@
 dependencies: []
 
 galaxy_info:
-  author: boaterfly
+  author: L-P
   description: simp_le installation and certificate generation for Ubuntu/Debian.
   company: "Boaterfly"
   license: "license (BSD, MIT)"

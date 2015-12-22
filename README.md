@@ -49,5 +49,5 @@ location / {
 ```
 - hosts: all
   roles:
-    - {role: "boaterfly.simp_le", sudo: no}
+    - {role: "L-P.simp_le", sudo: no}
 ```
