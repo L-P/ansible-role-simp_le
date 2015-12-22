@@ -5,6 +5,8 @@ and renew them automatically on Debian/Ubuntu servers.
 
 Renewal happens every month via a cron job run by the Ansible remote user.
 
+See the role on Ansible Galaxy: [L-P.simp_le](https://galaxy.ansible.com/detail#/role/6627)
+
 ## Variables
 ### Variables with defaults
 ```yaml
