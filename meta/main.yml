@@ -15,5 +15,8 @@ galaxy_info:
     versions:
     - all
   categories:
-    - development
+    - https
+    - letsencrypt
+    - ssl
+    - tls
     - web
