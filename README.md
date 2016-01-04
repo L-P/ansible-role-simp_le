@@ -19,6 +19,7 @@ simp_le_dest: # where to clone, by default in ~/.cache
 ### Required variables
 ```yaml
 simp_le_vhosts: []
+simp_le_email: ""
 ```
 
 A list of virtual hosts for which we'll generate certificates. eg.:
@@ -27,6 +28,11 @@ simp_le_vhosts:
   - vhost: "example.com"
     root: "/path/to/challenges" # accessible via HTTP
     output: "/path/to/output/dir" # where to write the certificates
+```
+
+An identifying email to use against Let's Encrypt api. eg:
+```yaml
+simp_le_email: "your@email.tld"
 ```
 
 ## Server configuration
