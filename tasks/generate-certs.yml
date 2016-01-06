@@ -29,7 +29,7 @@
   cron:
     name="renew certificates for {{item.vhost}}"
     job="cd {{item.output}} && {{simp_le_dest}}/venv/bin/simp_le --vhost {{item.vhost}}:{{item.root}} --email {{simp_le_email}} -f account_key.json -f fullchain.pem -f key.pem"
-    month="*/1"
+    special_time=monthly
   with_items: "{{simp_le_vhosts}}"
 
 - name: Fix ownerships.
