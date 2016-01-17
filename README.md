@@ -32,7 +32,7 @@ simp_le_vhosts:
 
 An identifying email to use against Let's Encrypt api. eg:
 ```yaml
-simp_le_email: "your@email.tld"
+simp_le_email: "your.email@example.com"
 ```
 
 ## Server configuration
