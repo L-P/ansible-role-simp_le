@@ -25,7 +25,7 @@ simp_le_email: ""
 A list of virtual hosts for which we'll generate certificates. eg.:
 ```yaml
 simp_le_vhosts:
-  - vhost: "example.com"
+  - domains: ["www.example.com", "example.com"]
     root: "/path/to/challenges" # accessible via HTTP
     output: "/path/to/output/dir" # where to write the certificates
 ```

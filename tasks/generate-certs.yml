@@ -20,16 +20,26 @@
   with_items: "{{simp_le_vhosts}}"
 
 - name: Create certificates.
-  command: "chdir={{item.output}} {{simp_le_dest}}/venv/bin/simp_le --vhost {{item.vhost}}:{{item.root}} --email {{simp_le_email}} -f account_key.json -f fullchain.pem -f key.pem"
+  command: "'{{simp_le_dest}}/venv/bin/simp_le' -d {{item.domains|join(' -d ')}} --default_root='{{item.root}}' --email '{{simp_le_email}}' -f account_key.json -f fullchain.pem -f key.pem -f cert.pem -f chain.pem"
+  args:
+    chdir: "{{item.output}}"
   with_items: "{{simp_le_vhosts}}"
   register: simp_le_output
   failed_when: "simp_le_output.rc >= 2"
   changed_when: "simp_le_output.rc == 0"
 
+# We use awk instead of cat because simp_le does not end the last line with a line terminator.
+- name: Create certkey.pem for {{item.domains|join(" -d ")}}
+  shell: "awk 'FNR==1{print \"\"}1' cert.pem key.pem > certkey.pem"
+  args:
+    chdir: "{{item.output}}"
+    creates: "{{item.output}}/certkey.pem"
+  with_items: "{{simp_le_vhosts}}"
+
 - name: Add certificate renewal cron.
   cron:
-    name="renew certificates for {{item.vhost}}"
-    job="cd {{item.output}} && {{simp_le_dest}}/venv/bin/simp_le --vhost {{item.vhost}}:{{item.root}} --email {{simp_le_email}} -f account_key.json -f fullchain.pem -f key.pem"
+    name="renew certificates for {{item.domains|join(" ")}}"
+    job="cd '{{item.output}}' && '{{simp_le_dest}}/venv/bin/simp_le' -d {{item.domains|join(" -d ")}} --default_root='{{item.root}}' --email '{{simp_le_email}}' -f account_key.json -f fullchain.pem -f key.pem -f cert.pem -f chain.pem && awk 'FNR==1{print \"\"}1' cert.pem key.pem > certkey.pem"
     special_time="monthly"
   with_items: "{{simp_le_vhosts}}"
 
