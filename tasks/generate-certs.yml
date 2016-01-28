@@ -8,6 +8,7 @@
     group="www-data"
     mode=0750
   with_items: "{{simp_le_vhosts}}"
+
 - name: Create output dirs.
   sudo: yes
   file:
@@ -22,7 +23,7 @@
   command: "chdir={{item.output}} {{simp_le_dest}}/venv/bin/simp_le --vhost {{item.vhost}}:{{item.root}} --email {{simp_le_email}} -f account_key.json -f fullchain.pem -f key.pem"
   with_items: "{{simp_le_vhosts}}"
   register: simp_le_output
-  failed_when: "simp_le_output.rc == 2"
+  failed_when: "simp_le_output.rc >= 2"
   changed_when: "simp_le_output.rc == 0"
 
 - name: Add certificate renewal cron.
