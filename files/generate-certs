@@ -1,0 +1,77 @@
+#!/usr/bin/env python
+# pylint: disable=invalid-name
+# pylint: enable=invalid-name
+"""
+Wrap simp_le CLI to make crons and automation easier
+"""
+
+import json
+import os
+import subprocess
+import sys
+
+_GENERATED_FILES = [
+    "account_key.json", "fullchain.pem",
+    "key.pem", "cert.pem", "chain.pem"
+]
+
+def create_certkey(output_dir):
+    """
+    Create the certkey.pem file which contains both the certificate and the
+    server private key.
+    """
+    certkey_path = os.path.join(output_dir, "certkey.pem")
+    input_files = [
+        os.path.join(output_dir, "cert.pem"),
+        os.path.join(output_dir, "key.pem")
+    ]
+
+    with open(certkey_path, "w") as fout:
+        for fin_path in input_files:
+            with open(fin_path, "r") as fin:
+                for line in fin:
+                    fout.write(line)
+
+                    # simp_le does not write the terminator on the last line
+                    if line[-1] != "\n":
+                        fout.write("\n")
+
+def generate_command(vhost, conf):
+    """
+    Return a simp_le command that will generate the certs for the given vhost.
+    """
+    command = ["{}/venv/bin/simp_le".format(conf["dest"])]
+
+    for domain in vhost["domains"]:
+        command += ["-d", domain]
+
+    command += ["--default_root", vhost["root"]]
+    command += ["--email", conf["email"]]
+
+    for output_file in _GENERATED_FILES:
+        command += ["-f", output_file]
+
+    return command
+
+def get_conf(conf_path):
+    """Return the configuration object with email, vhosts and dest."""
+    with open(conf_path, "r") as stream:
+        return json.load(stream)
+
+
+def main(argv):
+    """App entry point."""
+    conf = get_conf(argv[1])
+
+    for vhost in conf["vhosts"]:
+        cmd = generate_command(vhost, conf)
+        ret = subprocess.call(cmd, cwd=vhost["output"])
+
+        if ret >= 2:
+            raise RuntimeError(
+                "Unable to generate certificates for " + vhost["domains"][0]
+            )
+        create_certkey(vhost["output"])
+
+if __name__ == "__main__":
+    main(sys.argv)
