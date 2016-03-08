@@ -7,22 +7,8 @@ Renewal happens every month via a cron job run by the Ansible remote user.
 
 See the role on Ansible Galaxy: [L-P.simp_le](https://galaxy.ansible.com/detail#/role/6627)
 
-## Variables
-### Variables with defaults
-```yaml
-# Variables with defaults
-simp_le_repo: # simp_le repository
-simp_le_version: # commit/version to clone
-simp_le_dest: # where to clone, by default in ~/.cache
-```
-
-### Required variables
-```yaml
-simp_le_vhosts: []
-simp_le_email: ""
-```
-
-A list of virtual hosts for which we'll generate certificates. eg.:
+## Required variables
+A list of virtual hosts for which we'll generate certificates:
 ```yaml
 simp_le_vhosts:
   - domains: ["www.example.com", "example.com"]
@@ -30,10 +16,12 @@ simp_le_vhosts:
     output: "/path/to/output/dir" # where to write the certificates
 ```
 
-An identifying email to use against Let's Encrypt api. eg:
+An email address LetsEncrypt will use to identify you and send renewal notices:
 ```yaml
 simp_le_email: "your.email@example.com"
 ```
+
+See `defaults/main.yml` for more configuration.
 
 ## Server configuration
 Your server needs to serve the challenge files over HTTP, here is an example
@@ -59,3 +47,6 @@ location / {
   roles:
     - {role: "L-P.simp_le", sudo: no}
 ```
+
+While most of the operations are done without `sudo`, it is still used to
+create the various directories with the proper permissions and owners.
