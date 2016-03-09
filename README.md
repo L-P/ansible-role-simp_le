@@ -28,7 +28,7 @@ Your server needs to serve the challenge files over HTTP, here is an example
 configuration you can use for _nginx_ that will redirect every HTTP request to
 HTTPS except for the challenges:
 
-```
+```nginx
 location /.well-known/acme-challenge/ {
     alias /var/www/challenges/.well-known/acme-challenge/;
     try_files $uri @forward_https;
@@ -42,7 +42,7 @@ location / {
 ```
 
 ## Example playbook
-```
+```yaml
 - hosts: all
   roles:
     - {role: "L-P.simp_le", sudo: no}
