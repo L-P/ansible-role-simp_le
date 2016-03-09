@@ -40,7 +40,7 @@ def generate_command(vhost, conf):
     """
     Return a simp_le command that will generate the certs for the given vhost.
     """
-    command = ["{}/venv/bin/simp_le".format(conf["dest"])]
+    command = [os.path.join(conf["dest"], "/venv/bin/simp_le")]
 
     for domain in vhost["domains"]:
         command += ["-d", domain]
