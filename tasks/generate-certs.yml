@@ -14,8 +14,8 @@
   file:
     state="directory"
     path="{{item.output}}"
-    owner="{{ansible_user_id}}"
-    group="www-data"
+    owner="{{ item.user | default(ansible_user_id)}}"
+    group="{{ item.group | default("www-data") }}"
     mode=0750
   with_items: "{{simp_le_vhosts}}"
 
@@ -44,8 +44,8 @@
   file:
     path="{{item.output}}"
     state="directory"
-    owner="{{ansible_user_id}}"
-    group="www-data"
+    owner="{{ item.user | default(ansible_user_id)}}"
+    group="{{ item.group | default("www-data") }}"
     mode="u+rwX,g+rX,o="
     recurse=yes
   with_items: "{{simp_le_vhosts}}"

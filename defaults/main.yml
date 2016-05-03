@@ -18,7 +18,13 @@ simp_le_python_dependencies:
 
 # Mandatory
 # simp_le_vhosts:
-#   - vhost: "example.com"
+#   - domains: ["www.example.com", "example.com"]
 #     root: "/path/to/challenges"
 #     output: "/path/to/output/dir"
+#   - domains: ["smtp.example.com", "mail.example.com","example.com"]
+#     root: "/path/to/challenges"
+#     output: "/path/to/output/dir"
+#     user: Debian-exim
+#     group: Debian-exim
+#
 # simp_le_email:
