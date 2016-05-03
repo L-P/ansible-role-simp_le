@@ -37,7 +37,7 @@
   cron:
     name="renew certificates"
     job="'{{simp_le_cache}}/generate-certs' '{{simp_le_cache}}/conf.json'"
-    special_time="monthly"
+    minute="{{ 59 |random}}" hour="{{ 23 |random}}"
 
 - name: Fix ownerships.
   sudo: yes
