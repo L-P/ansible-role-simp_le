@@ -14,8 +14,8 @@
   file:
     state="directory"
     path="{{item.output}}"
-    owner="{{ansible_user_id}}"
-    group="www-data"
+    owner="{{ item.user | default(ansible_user_id)}}"
+    group="{{ item.group | default("www-data") }}"
     mode=0750
   with_items: "{{simp_le_vhosts}}"
 
@@ -37,15 +37,15 @@
   cron:
     name="renew certificates"
     job="'{{simp_le_cache}}/generate-certs' '{{simp_le_cache}}/conf.json'"
-    special_time="monthly"
+    minute="{{ 59 |random}}" hour="{{ 23 |random}}"
 
 - name: Fix ownerships.
   sudo: yes
   file:
     path="{{item.output}}"
     state="directory"
-    owner="{{ansible_user_id}}"
-    group="www-data"
+    owner="{{ item.user | default(ansible_user_id)}}"
+    group="{{ item.group | default("www-data") }}"
     mode="u+rwX,g+rX,o="
     recurse=yes
   with_items: "{{simp_le_vhosts}}"
