@@ -1,6 +1,6 @@
 ---
 simp_le_repo: "https://github.com/kuba/simp_le.git"
-simp_le_version: "8f258bc098a84b7a20c2732536d0740244d814f7"
+simp_le_version: "3a103b76f933f9aef782a47401dd2eff5057a6f7"
 simp_le_cache: "/home/{{ansible_user_id}}/.cache/ansible-simp_le"
 simp_le_dest: "{{simp_le_cache}}/simp_le"
 simp_le_dependencies:
