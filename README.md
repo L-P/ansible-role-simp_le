@@ -21,21 +21,27 @@ An email address LetsEncrypt will use to identify you and send renewal notices:
 simp_le_email: "your.email@example.com"
 ```
 
-There are some optional extra variables for each vhost:
+There are three optional keys you can set on hosts:
 
-```user``` and ```group``` specify the owner of the keys and certificate files, defaults
-to root and www-data
+- `user` and `group` to specifiy who will own the keys, challenges and their parent directory
+  The owner defaults to `www-data:www-data`.
+- `extra_args` to pass extra arguments to simp_le, this can be used to use the
+  LetsEncrypt staging server or to tell simp_le to reuse the key pair when
+  renewing the certificate. This is useful if you are using TLSA records, you
+  can then use Selector type 1 (SubjectPublicKeyInfo) and your TLSA record will
+  not need changing when the certificate is renewed.
 
-```extra_args``` - allows you to pass extra arguments to the simp_le script, two useful
-ones are:
-
-```"--server https://acme-staging.api.letsencrypt.org/directory"``` which lets you test
-against the LetsEncrypt staging server, and:
-
-```--reuse_key``` which tells simp_le to reuse the key pair when renewing the certificate.
-This is useful if you are using TLSA records, you can then use Selector type 1
-(SubjectPublicKeyInfo) and your TLSA record will not need changing when the certificate is
-renewed.
+Example:
+```yaml
+simp_le_vhosts:
+  - domains: ["smtp.example.com", "mail.example.com"]
+    root: "/path/to/challenges"
+    output: "/path/to/output/dir"
+    user: "Debian-exim"
+    group: "Debian-exim"
+    extra_args:
+      - "--reuse_key --server https://acme-staging.api.letsencrypt.org/directory"
+```
 
 See `defaults/main.yml` for more configuration.
 

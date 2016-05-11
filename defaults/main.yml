@@ -1,8 +1,13 @@
 ---
+# The two below are mandatory, see README.md
+# simp_le_email:
+# simp_le_vhosts:
+
 simp_le_repo: "https://github.com/kuba/simp_le.git"
 simp_le_version: "3a103b76f933f9aef782a47401dd2eff5057a6f7"
 simp_le_cache: "/home/{{ansible_user_id}}/.cache/ansible-simp_le"
 simp_le_dest: "{{simp_le_cache}}/simp_le"
+
 simp_le_dependencies:
   - "ca-certificates"
   - "build-essential"
@@ -11,21 +16,8 @@ simp_le_dependencies:
   - "python"
   - "python-dev"
   - "python-virtualenv"
+
 simp_le_python_dependencies:
   - "setuptools"
   - "pip"
   - "wheel"
-
-# Mandatory
-# simp_le_vhosts:
-#   - domains: ["www.example.com", "example.com"]
-#     root: "/path/to/challenges"
-#     output: "/path/to/output/dir"
-#   - domains: ["smtp.example.com", "mail.example.com","example.com"]
-#     root: "/path/to/challenges"
-#     output: "/path/to/output/dir"
-#     user: Debian-exim
-#     group: Debian-exim
-#     extra_args: "--reuse_key"
-#
-# simp_le_email:
