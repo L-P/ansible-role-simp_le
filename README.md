@@ -39,8 +39,7 @@ simp_le_vhosts:
     output: "/path/to/output/dir"
     user: "Debian-exim"
     group: "Debian-exim"
-    extra_args:
-      - "--reuse_key --server https://acme-staging.api.letsencrypt.org/directory"
+    extra_args: "--reuse_key --server https://acme-staging.api.letsencrypt.org/directory"
 ```
 
 See `defaults/main.yml` for more configuration.
