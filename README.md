@@ -21,6 +21,22 @@ An email address LetsEncrypt will use to identify you and send renewal notices:
 simp_le_email: "your.email@example.com"
 ```
 
+There are some optional extra variables for each vhost:
+
+```user``` and ```group``` specify the owner of the keys and certificate files, defaults
+to root and www-data
+
+```extra_args``` - allows you to pass extra arguments to the simp_le script, two useful
+ones are:
+
+```"--server https://acme-staging.api.letsencrypt.org/directory"``` which lets you test
+against the LetsEncrypt staging server, and:
+
+```--reuse_key``` which tells simp_le to reuse the key pair when renewing the certificate.
+This is useful if you are using TLSA records, you can then use Selector type 1
+(SubjectPublicKeyInfo) and your TLSA record will not need changing when the certificate is
+renewed.
+
 See `defaults/main.yml` for more configuration.
 
 ## Server configuration

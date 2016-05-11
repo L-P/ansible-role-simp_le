@@ -47,6 +47,8 @@ def generate_command(vhost, conf):
 
     command += ["--default_root", vhost["root"]]
     command += ["--email", conf["email"]]
+    if 'extra_args' in vhost:
+        command += vhost["extra_args"].strip().split(' ')
 
     for output_file in _GENERATED_FILES:
         command += ["-f", output_file]
