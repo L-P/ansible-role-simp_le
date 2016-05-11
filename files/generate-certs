@@ -47,6 +47,8 @@ def generate_command(vhost, conf):
 
     command += ["--default_root", vhost["root"]]
     command += ["--email", conf["email"]]
+    if 'extra_args' in vhost:
+        command += vhost["extra_args"].strip().split(' ')
 
     for output_file in _GENERATED_FILES:
         command += ["-f", output_file]
@@ -65,12 +67,19 @@ def main(argv):
 
     for vhost in conf["vhosts"]:
         cmd = generate_command(vhost, conf)
-        ret = subprocess.call(cmd, cwd=vhost["output"])
-
-        if ret >= 2:
-            raise RuntimeError(
-                "Unable to generate certificates for " + vhost["domains"][0]
-            )
+        # simp_le returns 1 when a renewal is not needed
+        # to avoid getting loads of emails when this script is run from cron
+        # ignore returncode == 1
+        try:
+            output = subprocess.check_output(cmd, cwd=vhost["output"], stderr=subprocess.STDOUT)
+            print output
+        except subprocess.CalledProcessError, e:
+            if e.returncode != 1:
+                print output
+            if e.returncode >= 2:
+                raise RuntimeError(
+                    "Unable to generate certificates for " + vhost["domains"][0]
+                )
         create_certkey(vhost["output"])
 
 if __name__ == "__main__":

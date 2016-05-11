@@ -26,5 +26,6 @@ simp_le_python_dependencies:
 #     output: "/path/to/output/dir"
 #     user: Debian-exim
 #     group: Debian-exim
+#     extra_args: "--reuse_key"
 #
 # simp_le_email:
