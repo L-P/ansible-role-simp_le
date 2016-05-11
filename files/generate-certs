@@ -71,12 +71,13 @@ def main(argv):
         # to avoid getting loads of emails when this script is run from cron
         # ignore returncode == 1
         try:
-            output = subprocess.check_output(cmd, cwd=vhost["output"], stderr=subprocess.STDOUT)
+            output = subprocess.check_output(cmd, cwd=vhost["output"],
+                                             stderr=subprocess.STDOUT)
             print output
-        except subprocess.CalledProcessError, e:
-            if e.returncode != 1:
+        except subprocess.CalledProcessError, err:
+            if err.returncode != 1:
                 print output
-            if e.returncode >= 2:
+            if err.returncode >= 2:
                 raise RuntimeError(
                     "Unable to generate certificates for " + vhost["domains"][0]
                 )
