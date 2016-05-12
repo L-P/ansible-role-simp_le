@@ -76,7 +76,7 @@ def main(argv):
             print output
         except subprocess.CalledProcessError, err:
             if err.returncode != 1:
-                print output
+                print err.output
             if err.returncode >= 2:
                 raise RuntimeError(
                     "Unable to generate certificates for " + vhost["domains"][0]
