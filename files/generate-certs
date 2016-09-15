@@ -70,6 +70,7 @@ def main(argv):
         # simp_le returns 1 when a renewal is not needed
         # to avoid getting loads of emails when this script is run from cron
         # ignore returncode == 1
+        updated = True
         try:
             output = subprocess.check_output(cmd, cwd=vhost["output"],
                                              stderr=subprocess.STDOUT)
@@ -77,11 +78,28 @@ def main(argv):
         except subprocess.CalledProcessError, err:
             if err.returncode != 1:
                 print err.output
+            if err.returncode == 1:
+                updated = False
             if err.returncode >= 2:
                 raise RuntimeError(
                     "Unable to generate certificates for " + vhost["domains"][0]
                 )
+                updated = False
         create_certkey(vhost["output"])
+        if updated:
+            if "update_action" in vhost:
+                print "Certificate updated for (", ",".join(vhost["domains"]), ")"
+                print "running ", vhost["update_action"]
+                try:
+                    output = subprocess.check_output(vhost["update_action"].split(" "), cwd=vhost["output"],
+                                             stderr=subprocess.STDOUT)
+                    print output
+                except subprocess.CalledProcessError, err:
+                    print "Update action failed:"
+                    print err.output
+                except OSError, err: # e.g. file not found
+                    print "Update action failed:"
+                    print err
 
 if __name__ == "__main__":
     main(sys.argv)

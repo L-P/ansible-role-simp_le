@@ -3,7 +3,7 @@ ansible-role-simp_le
 Install [simp_le](https://github.com/kuba/simp_le.git), generate certificates
 and renew them automatically on Debian/Ubuntu servers.
 
-Renewal happens every month via a cron job run by the Ansible remote user.
+Renewal will be attempted daily via a cron job run by the Ansible remote user.
 
 See the role on Ansible Galaxy: [L-P.simp_le](https://galaxy.ansible.com/detail#/role/6627)
 
@@ -30,6 +30,8 @@ There are three optional keys you can set on hosts:
   renewing the certificate. This is useful if you are using TLSA records, you
   can then use Selector type 1 (SubjectPublicKeyInfo) and your TLSA record will
   not need changing when the certificate is renewed.
+- `update_action` a command to be run when a certificate is renewed,
+   e.g. `systemctl restart apache2`
 
 Example:
 ```yaml
@@ -40,6 +42,7 @@ simp_le_vhosts:
     user: "Debian-exim"
     group: "Debian-exim"
     extra_args: "--reuse_key --server https://acme-staging.api.letsencrypt.org/directory"
+    update_action: "/bin/systemctl restart exim4"
 ```
 
 See `defaults/main.yml` for more configuration.
