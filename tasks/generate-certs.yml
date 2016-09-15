@@ -1,6 +1,6 @@
 ---
 - name: Create root dirs.
-  sudo: yes
+  become: yes
   file:
     state="directory"
     path="{{item.root}}"
@@ -10,7 +10,7 @@
   with_items: "{{simp_le_vhosts}}"
 
 - name: Create output dirs.
-  sudo: yes
+  become: yes
   file:
     state="directory"
     path="{{item.output}}"
@@ -40,7 +40,7 @@
     minute="{{ 59 |random}}" hour="{{ 23 |random}}"
 
 - name: Fix ownerships.
-  sudo: yes
+  become: yes
   file:
     path="{{item.output}}"
     state="directory"

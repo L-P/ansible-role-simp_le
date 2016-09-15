@@ -69,7 +69,7 @@ location / {
 ```yaml
 - hosts: all
   roles:
-    - {role: "L-P.simp_le", sudo: no}
+    - {role: "L-P.simp_le", become: no}
 ```
 
 While most of the operations are done without `sudo`, it is still used to
