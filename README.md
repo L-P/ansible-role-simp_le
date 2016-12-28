@@ -5,13 +5,10 @@ and renew them automatically on Debian/Ubuntu servers.
 
 Renewal will be attempted daily via a cron job run by the Ansible remote user.
 
-See the role on Ansible Galaxy: [L-P.simp_le](https://galaxy.ansible.com/detail#/role/6627)
+See the role on Ansible Galaxy: [L-P.simp_le](https://galaxy.ansible.com/L-P/simp_le/)
 
-**Warning**: as of 2016-09-15, simp_le does not seem to be maintained
-and I don't use this role anymore.
-I started using [acmetool](https://github.com/L-P/ansible-role-acmetool).
-It has no dependencies, it is easier to install, you don't need to build
-anything, and it runs on ARM ports where many packages are missing.
+Note: I started using [acmetool](https://github.com/L-P/ansible-role-acmetool)
+and recommand you do the same for any new server running Ubuntu ≥ 16.04.
 
 ## Required variables
 A list of virtual hosts for which we'll generate certificates:
