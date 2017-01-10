@@ -18,14 +18,14 @@
 # If the git repo has changed we need to rebuild the venv
 - name: nuke the venv
   file:
-	state=absent
-	path="{{simp_le_dest}}/venv"
+    state=absent
+    path="{{simp_le_dest}}/venv"
   when: git.changed
 
 - name: make venv dir
   file:
-	state=directory
-	path="{{simp_le_dest}}/venv"
+    state=directory
+    path="{{simp_le_dest}}/venv"
   when: git.changed
 
 # Duplicate venv.sh behavior.

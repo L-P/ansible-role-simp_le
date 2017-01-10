@@ -4,7 +4,7 @@
 # simp_le_vhosts:
 
 simp_le_repo: "https://github.com/zenhack/simp_le/"
-simp_le_version: "621df806c889dc1fb155ae39ae45325790e992a9"
+simp_le_version: "63a43b8547cd9fbc87db6bcd9497c6e37f73abef"
 simp_le_cache: "/home/{{ansible_user_id}}/.cache/ansible-simp_le"
 simp_le_dest: "{{simp_le_cache}}/simp_le"
 
