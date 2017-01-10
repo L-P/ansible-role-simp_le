@@ -4,6 +4,7 @@
     repo="{{simp_le_repo}}"
     version="{{simp_le_version}}"
     dest="{{simp_le_dest}}"
+  register: git
 
 # Duplicate bootstrap.sh behavior.
 - name: Install dependencies.
@@ -13,6 +14,19 @@
     cache_valid_time="86400"
     update_cache=yes
   with_items: "{{simp_le_dependencies}}"
+
+# If the git repo has changed we need to rebuild the venv
+- name: nuke the venv
+  file:
+	state=absent
+	path="{{simp_le_dest}}/venv"
+  when: git.changed
+
+- name: make venv dir
+  file:
+	state=directory
+	path="{{simp_le_dest}}/venv"
+  when: git.changed
 
 # Duplicate venv.sh behavior.
 - name: Setup venv.
