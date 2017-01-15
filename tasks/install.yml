@@ -34,6 +34,7 @@
     virtualenv="{{simp_le_dest}}/venv"
     name="{{item}}"
     chdir="{{simp_le_dest}}"
+    state=latest
   with_items: "{{simp_le_python_dependencies}}"
 
 - name: Setup simp_le.
