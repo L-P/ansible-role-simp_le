@@ -13,7 +13,7 @@ galaxy_info:
     - all
   - name: Ubuntu
     versions:
-    - all
+    - trusty
   categories:
     - https
     - letsencrypt
